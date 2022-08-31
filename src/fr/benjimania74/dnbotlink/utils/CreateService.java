@@ -33,7 +33,7 @@ public class CreateService {
 
             InstallFile.installDNPlugin(p + "/" + files[3]);
 
-            FilesManager.getInstance().write(p + "/eula.txt", "eula=tru");
+            FilesManager.getInstance().write(p + "/eula.txt", "eula=true");
             InstallFile.copyLocalFile(
                     Main.class.getProtectionDomain()
                             .getCodeSource()
