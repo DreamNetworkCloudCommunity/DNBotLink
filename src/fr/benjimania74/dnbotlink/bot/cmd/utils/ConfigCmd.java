@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.bot.cmd.utils;
 
-import be.alexandre01.dreamnetwork.api.DNClientAPI;
+import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
 import fr.benjimania74.dnbotlink.bot.cmd.utils.config.ConfigCommandRegister;
 import fr.benjimania74.dnbotlink.bot.cmd.utils.config.ConfigCommands;
@@ -16,7 +16,7 @@ public class ConfigCmd extends Command {
     public ConfigCmd(String name, String description) {super(name, description);}
 
     @Override
-    public void execute(TextChannel channel, DNClientAPI clientAPI, Message message) {
+    public void execute(TextChannel channel, DNCoreAPI coreAPI, Message message) {
         new ConfigCommandRegister();
         EmbedBuilder help = new EmbedBuilder()
                 .setColor(Color.RED)

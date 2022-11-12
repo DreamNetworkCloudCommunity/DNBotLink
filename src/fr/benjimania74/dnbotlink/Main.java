@@ -1,10 +1,10 @@
 package fr.benjimania74.dnbotlink;
 
-import be.alexandre01.dreamnetwork.api.DNClientAPI;
+import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.configmanager.Config;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
@@ -12,11 +12,10 @@ import fr.benjimania74.dnbotlink.utils.CustomResponse;
 import fr.benjimania74.dnbotlink.registers.CommandsRegister;
 import fr.benjimania74.dnbotlink.registers.ListenerRegister;
 import fr.benjimania74.dnbotlink.utils.FilesManager;
-import fr.benjimania74.dnbotlink.utils.InstallFile;
 import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
 
 public class Main extends DreamExtension {
-    public static DNClientAPI clientAPI;
+    public static DNCoreAPI coreAPI;
     public static String addonName;
     public static String addonVersion;
 
@@ -37,16 +36,16 @@ public class Main extends DreamExtension {
     @Override
     public void start() {
         super.start();
-        clientAPI = getDnClientAPI();
-        if(!CommandsRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the Commands, the Addon will not be able to be used");}
-        if(!ListenerRegister.register(clientAPI)){Console.print(Colors.RED + "Can't register the listeners, the Addon will not be able to be used correctly");}
+        coreAPI = getDnCoreAPI();
+        if(!CommandsRegister.register(coreAPI)){Console.print(Colors.RED + "Can't register the Commands, the Addon will not be able to be used");}
+        if(!ListenerRegister.register(coreAPI)){Console.print(Colors.RED + "Can't register the listeners, the Addon will not be able to be used correctly");}
 
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
         new ServiceAutoStarter();
 
         // InstallFile.installPaper("./paper-1.8.8.jar", "1.8.8"); <- INSTALL PAPER SPIGOT 1.8.8
 
-        clientAPI.getGlobalResponses().add(new CustomResponse());
+        coreAPI.getGlobalResponses().add(new CustomResponse());
     }
 
     @Override

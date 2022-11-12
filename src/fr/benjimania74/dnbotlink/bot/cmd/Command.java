@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.bot.cmd;
 
-import be.alexandre01.dreamnetwork.api.DNClientAPI;
+import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import fr.benjimania74.dnbotlink.Main;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import net.dv8tion.jda.api.entities.Message;
@@ -28,5 +28,5 @@ public abstract class Command {
         return Main.addonName;
     }
 
-    public abstract void execute(TextChannel channel, DNClientAPI clientAPI, Message message);
+    public abstract void execute(TextChannel channel, DNCoreAPI coreAPI, Message message);
 }

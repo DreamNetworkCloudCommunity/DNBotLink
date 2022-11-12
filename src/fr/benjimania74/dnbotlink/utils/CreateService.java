@@ -1,7 +1,6 @@
 package fr.benjimania74.dnbotlink.utils;
 
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 
 import java.nio.file.Path;

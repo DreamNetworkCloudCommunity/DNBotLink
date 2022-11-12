@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.bot;
 
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
 import fr.benjimania74.dnbotlink.bot.listeners.MessageListener;
 import fr.benjimania74.dnbotlink.bot.utils.CommandsRegister;

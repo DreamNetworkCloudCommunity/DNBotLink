@@ -1,8 +1,10 @@
 package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
+import fr.benjimania74.configmanager.Config;
+import fr.benjimania74.configmanager.EncodedConfigManager;
 import fr.benjimania74.dnbotlink.Main;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,63 +16,55 @@ import java.util.List;
 
 public class ServiceAutoStarter {
     public ServiceAutoStarter(){
-        JSONObject jobj;
-        JSONArray object;
+        List<Object> services;
+        EncodedConfigManager eConfigManager;
         try {
-            jobj = (JSONObject) new JSONParser().parse(new String(Base64.getDecoder().decode(FilesManager.getInstance().read("autostartservice"))));
-            object = (JSONArray) jobj.get("services");
+            eConfigManager = Config.getInstance().getEncodedConfig("autostartservice");
+            services = eConfigManager.getList("services");
         }catch (Exception e){
-            jobj = new JSONObject();
-            jobj.put("services", new JSONArray());
-            save(jobj.toJSONString());
+            eConfigManager = Config.getInstance().createEncodedConfig("services");
+            eConfigManager.set("services", new JSONArray());
+            eConfigManager.save();
             Console.print(Colors.YELLOW + "No Service to Auto-Start");
             return;
         }
 
         List<String> executed = new ArrayList<>();
-        if(object == null || object.isEmpty()){Console.print(Colors.YELLOW + "No Service to Auto-Start");return;}
-        Console.print(Colors.YELLOW + "Auto-Starting of Proxy");
-        for(IJVMExecutor executor : Main.clientAPI.getContainer().getJVMExecutorsProxy().values()){
+        if(services == null || services.isEmpty()){Console.print(Colors.YELLOW + "No Service to Auto-Start");return;}
+        Console.print(Colors.YELLOW + "Auto-Starting of Proxys");
+
+        for(IJVMExecutor executor : Main.coreAPI.getContainer().getJVMExecutorsProxy().values()){
             if(Services.isBoth(executor.getName())){
-                if(object.contains(executor.getName() + "<&>proxy")){
+                if(services.contains(executor.getName() + "<&>proxy")){
                     executor.startServer();
                     Console.print(Colors.GREEN + executor.getName() + " auto-starting");
                     executed.add(executor.getName()+"<&>proxy");
                 }
-            }else if(object.contains(executor.getName())){
+            }else if(services.contains(executor.getName())){
                 executor.startServer();
                 Console.print(Colors.GREEN + executor.getName() + " auto-starting");
                 executed.add(executor.getName());
             }
         }
 
-        executed.forEach(object::remove);
-        if(object.isEmpty()){return;}
+        executed.forEach(services::remove);
+        if(services.isEmpty()){return;}
 
         int i = 0;
         while (!Services.isProxyLaunched()){System.out.println(i++);}
 
         Console.print(Colors.YELLOW + "Auto-Starting of Servers");
-        for(IJVMExecutor executor : Main.clientAPI.getContainer().getJVMExecutorsServers().values()){
+        for(IJVMExecutor executor : Main.coreAPI.getContainer().getJVMExecutorsServers().values()){
             if(Services.isBoth(executor.getName())){
-                if(object.contains(executor.getName() + "<&>server")){
+                if(services.contains(executor.getName() + "<&>server")){
                     executor.startServer();
                     Console.print(Colors.GREEN + executor.getName() + " auto-starting");
                 }
-            }else if(object.contains(executor.getName())){
+            }else if(services.contains(executor.getName())){
                 executor.startServer();
                 Console.print(Colors.GREEN + executor.getName() + " auto-starting");
             }
         }
         Console.print(Colors.GREEN + "Auto-Starting finished");
-    }
-
-    private void save(String toWrite){
-        try {
-            FilesManager.getInstance().write(FilesManager.getInstance().addonPath + "/autostartservice", Base64.getEncoder().encodeToString(toWrite.getBytes()));
-            Console.print(Colors.GREEN_BACKGROUND + "The file 'autostartservice' has been saved");
-        }catch (Exception e){
-            Console.print(Colors.RED_BACKGROUND + "The file can't be saved");
-        }
     }
 }

@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.bot.cmd.utils;
 
-import be.alexandre01.dreamnetwork.api.DNClientAPI;
+import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -15,7 +15,7 @@ public class HelpCmd extends Command {
     }
 
     @Override
-    public void execute(TextChannel channel, DNClientAPI clientAPI, Message message) {
+    public void execute(TextChannel channel, DNCoreAPI coreAPI, Message message) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.GREEN)
                 .setTitle("Help Command")

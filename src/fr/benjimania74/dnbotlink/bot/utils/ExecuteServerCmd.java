@@ -6,7 +6,7 @@ import fr.benjimania74.dnbotlink.Main;
 
 public class ExecuteServerCmd {
     public void execute(String cmd, String serviceName){
-        IClient client = Main.clientAPI.getContainer().getJVMExecutorsServers().get(serviceName).getService(0).getClient();
+        IClient client = Main.coreAPI.getContainer().getJVMExecutorsServers().get(serviceName).getService(0).getClient();
         client.getRequestManager().sendRequest(RequestType.SPIGOT_EXECUTE_COMMAND, cmd);
     }
 }

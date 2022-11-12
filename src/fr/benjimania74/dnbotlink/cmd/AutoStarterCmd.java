@@ -1,8 +1,8 @@
 package fr.benjimania74.dnbotlink.cmd;
 
 import be.alexandre01.dreamnetwork.api.commands.Command;
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.configmanager.Config;
 import fr.benjimania74.configmanager.EncodedConfigManager;
 import fr.benjimania74.dnbotlink.Main;
@@ -39,7 +39,7 @@ public class AutoStarterCmd extends Command {
             }
 
             if(args[2].equalsIgnoreCase("server")){
-                if(!Main.clientAPI.getContainer().getJVMExecutorsServers().containsKey(args[1])) {Console.print(Colors.RED + args[1] + " is not a Server");return true;}
+                if(!Main.coreAPI.getContainer().getJVMExecutorsServers().containsKey(args[1])) {Console.print(Colors.RED + args[1] + " is not a Server");return true;}
                 autoStartedService.add(args[1] + "<&>server");
                 autoStartConfig.set("services", autoStartedService);
                 autoStartConfig.save();
@@ -47,7 +47,7 @@ public class AutoStarterCmd extends Command {
                 return true;
             }
             if(args[2].equalsIgnoreCase("proxy")){
-                if(!Main.clientAPI.getContainer().getJVMExecutorsProxy().containsKey(args[1])) {Console.print(Colors.RED + args[1] + " is not a Proxy");return true;}
+                if(!Main.coreAPI.getContainer().getJVMExecutorsProxy().containsKey(args[1])) {Console.print(Colors.RED + args[1] + " is not a Proxy");return true;}
                 autoStartedService.add(args[1] + "<&>proxy");
                 autoStartConfig.set("services", autoStartedService);
                 autoStartConfig.save();

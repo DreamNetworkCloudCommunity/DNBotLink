@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.bot.cmd.services;
 
-import be.alexandre01.dreamnetwork.api.DNClientAPI;
+import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
 import fr.benjimania74.dnbotlink.utils.ServicesStarter;
@@ -14,7 +14,7 @@ public class StartCmd extends Command {
     public StartCmd(String name, String description) {super(name, description);}
 
     @Override
-    public void execute(TextChannel channel, DNClientAPI clientAPI, Message message) {
+    public void execute(TextChannel channel, DNCoreAPI coreAPI, Message message) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Invalid Command")

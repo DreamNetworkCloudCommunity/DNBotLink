@@ -2,7 +2,7 @@ package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.api.service.IContainer;
 import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -10,12 +10,12 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 
 public class ServicesStopper {
-    private final IContainer container = Main.clientAPI.getContainer();
+    private final IContainer container = Main.coreAPI.getContainer();
     private String serviceName = "";
 
     public String stopD(String @NotNull [] serviceI){
         serviceName = serviceI[0];
-        String notAService = Colors.RED + StatusMessages.NOT_EXISTING.replace("SERVICE", serviceName);
+        String notAService = Colors.RED + StatusMessages.NOT_EXISTING.getMessage().replace("SERVICE", serviceName);
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){
@@ -23,22 +23,22 @@ public class ServicesStopper {
             }
             IContainer.JVMType type = Services.getType(serviceName);
             if(type == null){return notAService;}
-            if(Services.containMultiple(serviceName, type)){return Colors.RED + StatusMessages.DYNAMIC_SERVICE.replace("SERVICE", serviceName).replace("COMMAND", "stop");}
+            if(Services.containMultiple(serviceName, type)){return Colors.RED + StatusMessages.DYNAMIC_SERVICE.getMessage().replace("SERVICE", serviceName).replace("COMMAND", "stop");}
             stopServer(container.getJVMExecutor(serviceName, Services.getType(serviceName)));
-            return Colors.GREEN + StatusMessages.NOW_STOPPED;
+            return Colors.GREEN + StatusMessages.NOW_STOPPED.getMessage();
         }
 
         if(serviceI[1].equalsIgnoreCase("server")){
-            if(!container.getJVMExecutorsServers().containsKey(serviceName)){return Colors.RED + StatusMessages.NOT_SERVER.replace("SERVICE", serviceName);}
-            if(Services.containMultiple(serviceName, IContainer.JVMType.SERVER)){return Colors.RED + StatusMessages.DYNAMIC_SERVICE.replace("SERVICE", serviceName).replace("COMMAND", "stop");}
+            if(!container.getJVMExecutorsServers().containsKey(serviceName)){return Colors.RED + StatusMessages.NOT_SERVER.getMessage().replace("SERVICE", serviceName);}
+            if(Services.containMultiple(serviceName, IContainer.JVMType.SERVER)){return Colors.RED + StatusMessages.DYNAMIC_SERVICE.getMessage().replace("SERVICE", serviceName).replace("COMMAND", "stop");}
             stopServer(container.getJVMExecutor(serviceName, Services.getType(serviceName)));
-            return Colors.GREEN + StatusMessages.NOW_STOPPED.replace("SERVICE", serviceName);
+            return Colors.GREEN + StatusMessages.NOW_STOPPED.getMessage().replace("SERVICE", serviceName);
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
-            if(!container.getJVMExecutorsProxy().containsKey(serviceI[0])){return Colors.RED + StatusMessages.NOT_PROXY.replace("SERVICE", serviceName);}
-            if(Services.containMultiple(serviceName, IContainer.JVMType.PROXY)){return Colors.RED + StatusMessages.DYNAMIC_SERVICE.replace("SERVICE", serviceName).replace("COMMAND", "stop");}
+            if(!container.getJVMExecutorsProxy().containsKey(serviceI[0])){return Colors.RED + StatusMessages.NOT_PROXY.getMessage().replace("SERVICE", serviceName);}
+            if(Services.containMultiple(serviceName, IContainer.JVMType.PROXY)){return Colors.RED + StatusMessages.DYNAMIC_SERVICE.getMessage().replace("SERVICE", serviceName).replace("COMMAND", "stop");}
             stopServer(container.getJVMExecutor(serviceName, IContainer.JVMType.PROXY));
-            return Colors.GREEN + StatusMessages.NOW_STOPPED.replace("SERVICE", serviceName);
+            return Colors.GREEN + StatusMessages.NOW_STOPPED.getMessage().replace("SERVICE", serviceName);
         }
         return notAService;
     }
@@ -48,10 +48,10 @@ public class ServicesStopper {
 
         EmbedBuilder successEmbed = new EmbedBuilder()
                 .setColor(Color.GREEN)
-                .setTitle(StatusMessages.NOW_STOPPING.replace("SERVICE", serviceName));
+                .setTitle(StatusMessages.NOW_STOPPING.getMessage().replace("SERVICE", serviceName));
         EmbedBuilder notRunning = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.NOT_RUNNING.replace("SERVICE", serviceName));
+                .setTitle(StatusMessages.NOT_RUNNING.getMessage().replace("SERVICE", serviceName));
         EmbedBuilder doubleService = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Double Service")
@@ -102,25 +102,25 @@ public class ServicesStopper {
     }
 
     private void stopServer(@NotNull IJVMExecutor executor){executor.getService(0).stop();}
-    public void stopAllServices(){ Main.clientAPI.getClientManager().getClients().values().forEach(iClient -> iClient.getJvmService().stop()); }
+    public void stopAllServices(){ Main.coreAPI.getClientManager().getClients().values().forEach(iClient -> iClient.getJvmService().stop()); }
 
     public String stopDynamicD(String s) {
-        if(Main.clientAPI.getClientManager().getClients().containsKey(s)){
-            stopServer(Main.clientAPI.getClientManager().getClient(s).getJvmService().getJvmExecutor());
-            return StatusMessages.NOW_STOPPED.replace("SERVICE", s);
+        if(Main.coreAPI.getClientManager().getClients().containsKey(s)){
+            stopServer(Main.coreAPI.getClientManager().getClient(s).getJvmService().getJvmExecutor());
+            return StatusMessages.NOW_STOPPED.getMessage().replace("SERVICE", s);
         }
-        return Colors.RED + StatusMessages.NOT_RUNNING.replace("SERVICE", s);
+        return Colors.RED + StatusMessages.NOT_RUNNING.getMessage().replace("SERVICE", s);
     }
 
     public EmbedBuilder stopDynamicB(String s){
         EmbedBuilder success = new EmbedBuilder()
                 .setColor(Color.GREEN)
-                .setTitle(StatusMessages.NOW_STOPPED.replace("SERVICE", s));
+                .setTitle(StatusMessages.NOW_STOPPED.getMessage().replace("SERVICE", s));
         EmbedBuilder notRunning = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.NOT_RUNNING.replace("SERVICE", s));
-        if(Main.clientAPI.getClientManager().getClients().containsKey(s)){
-            stopServer(Main.clientAPI.getClientManager().getClient(s).getJvmService().getJvmExecutor());
+                .setTitle(StatusMessages.NOT_RUNNING.getMessage().replace("SERVICE", s));
+        if(Main.coreAPI.getClientManager().getClients().containsKey(s)){
+            stopServer(Main.coreAPI.getClientManager().getClient(s).getJvmService().getJvmExecutor());
             return success;
         }
         return notRunning;

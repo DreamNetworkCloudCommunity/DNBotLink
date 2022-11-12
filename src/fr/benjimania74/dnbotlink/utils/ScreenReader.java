@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.utils;
 
-import be.alexandre01.dreamnetwork.client.console.Console;
+import be.alexandre01.dreamnetwork.core.console.Console;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.utils.SendMessage;
 

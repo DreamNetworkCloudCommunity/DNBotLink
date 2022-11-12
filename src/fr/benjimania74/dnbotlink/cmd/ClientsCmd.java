@@ -11,7 +11,7 @@ public class ClientsCmd extends Command {
         super(name);
 
         addSubCommand("see", args -> {
-            Collection<IClient> clients = Main.clientAPI.getClientManager().getClients().values();
+            Collection<IClient> clients = Main.coreAPI.getClientManager().getClients().values();
             if(clients.isEmpty()){
                 System.out.println("There's no Servers and Proxy Running on the Network");
                 return true;

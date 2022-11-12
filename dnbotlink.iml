@@ -7,11 +7,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="lombok" level="project" />
     <orderEntry type="library" name="JDA-4.4.0_350-withDependencies" level="project" />
-    <orderEntry type="library" name="DreamNetworkV2-1.10.0-SNAPSHOT-api" level="project" />
     <orderEntry type="library" name="spigot-1.8.8" level="project" />
     <orderEntry type="library" name="DreamNetwork-Plugin-api" level="project" />
     <orderEntry type="library" name="DNConfigManagerAPI" level="project" />
+    <orderEntry type="library" name="DreamNetwork" level="project" />
+    <orderEntry type="library" name="lombok" level="project" />
   </component>
 </module>

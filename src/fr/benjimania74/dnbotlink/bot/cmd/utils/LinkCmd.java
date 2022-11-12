@@ -1,9 +1,9 @@
 package fr.benjimania74.dnbotlink.bot.cmd.utils;
 
-import be.alexandre01.dreamnetwork.api.DNClientAPI;
+import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
@@ -27,7 +27,7 @@ public class LinkCmd extends Command {
     public LinkCmd(String name, String description) {super(name, description);}
 
     @Override
-    public void execute(TextChannel channel, DNClientAPI clientAPI, Message message) {
+    public void execute(TextChannel channel, DNCoreAPI coreAPI, Message message) {
         EmbedBuilder eb = new EmbedBuilder()
                 .setColor(Color.RED)
                 .setTitle("Invalid Command")
@@ -74,7 +74,7 @@ public class LinkCmd extends Command {
             return;
         }
 
-        IContainer container = Main.clientAPI.getContainer();
+        IContainer container = Main.coreAPI.getContainer();
 
         if(args[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(args[0])){

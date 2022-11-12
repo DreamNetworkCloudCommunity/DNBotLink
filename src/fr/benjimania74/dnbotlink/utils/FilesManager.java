@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.utils;
 
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 
 import java.io.File;
@@ -16,7 +16,7 @@ public class FilesManager {
     private static FilesManager instance;
     public static FilesManager getInstance(){return instance;}
 
-    private final String[] configFiles = {"token"};
+    private final String[] configFiles = {"token", "config", "autostartservice"};
     protected String jar = FilesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath().substring(1);
     public Path addonPath = Paths.get((System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("Windows") ? "" : "/") + jar.replace("/" + jar.substring(jar.lastIndexOf("/") + 1), "") + "/" + Main.addonName);
 

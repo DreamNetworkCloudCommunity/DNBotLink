@@ -2,7 +2,7 @@ package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.api.connection.core.communication.IClient;
 import be.alexandre01.dreamnetwork.api.service.IContainer;
-import be.alexandre01.dreamnetwork.client.utils.messages.Message;
+import be.alexandre01.dreamnetwork.core.utils.messages.Message;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.utils.SendMessage;
 import io.netty.channel.ChannelHandlerContext;

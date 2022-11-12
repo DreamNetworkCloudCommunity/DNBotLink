@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.bot;
 
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.configmanager.Config;
 import fr.benjimania74.configmanager.EncodedConfigManager;
 import net.dv8tion.jda.api.OnlineStatus;

@@ -1,10 +1,9 @@
 package fr.benjimania74.dnbotlink.cmd;
 
 import be.alexandre01.dreamnetwork.api.commands.Command;
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.utils.CreateService;
-import fr.benjimania74.dnbotlink.utils.FilesManager;
 import fr.benjimania74.dnbotlink.utils.Services;
 import fr.benjimania74.dnbotlink.utils.StatusMessages;
 
@@ -19,13 +18,13 @@ public class CreateCmd extends Command {
             String serverName = args[2];
             String serverVersion = args[3];
 
-            if(Services.getType(serviceName) != null){Console.print(Colors.RED + StatusMessages.EXIST.replace("SERVICE", serviceName));return true;}
+            if(Services.getType(serviceName) != null){Console.print(Colors.RED + StatusMessages.EXIST.getMessage().replace("SERVICE", serviceName));return true;}
             if(!serverName.equalsIgnoreCase("paper") && !serverName.equalsIgnoreCase("spigot")){Console.print(Colors.RED + "The Server must be on Spigot or Paper");return true;}
 
             if(args.length == 5){
                 String serverType = args[4];
                 if(!serverType.equalsIgnoreCase("dynamic") && !serverType.equalsIgnoreCase("static")){
-                    Console.print(Colors.RED + "'" + serverType + "' is not a valide type");
+                    Console.print(Colors.RED + StatusMessages.INCORRECT_TYPE.getMessage());
                     return true;
                 }
                 Console.print(CreateService.createServer(serverName, serverName, serverVersion, serverType));

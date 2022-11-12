@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.utils;
 
 import be.alexandre01.dreamnetwork.api.service.IContainer;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.Main;
 import net.dv8tion.jda.api.EmbedBuilder;
 import org.jetbrains.annotations.NotNull;
@@ -10,52 +10,52 @@ import java.awt.*;
 import java.util.Objects;
 
 public class ServicesStarter {
-    private final IContainer container = Main.clientAPI.getContainer();
+    private final IContainer container = Main.coreAPI.getContainer();
     private String serviceName = "";
 
     public String startD(String @NotNull [] serviceI){
         serviceName = serviceI[0];
-        String serviceStarting = Colors.GREEN_BACKGROUND + serviceName + " is now Starting";
+        String serviceStarting = Colors.GREEN_BACKGROUND + StatusMessages.NOW_STARTING.getMessage().replace("SERVICE", serviceName);
 
         if(serviceI.length == 1){
-            if(Services.isBoth(serviceName)){return Colors.RED + StatusMessages.DOUBLE_SERVICE.replace("SERVICE", serviceName) + " Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy";}
-            if(Services.getType(serviceName) == null){return Colors.RED + StatusMessages.NOT_EXISTING.replace("SERVICE", serviceName);}
+            if(Services.isBoth(serviceName)){return Colors.RED + StatusMessages.DOUBLE_SERVICE.getMessage().replace("SERVICE", serviceName) + " Type '" + serviceName + " server' for server and '" + serviceName + " proxy' for proxy";}
+            if(Services.getType(serviceName) == null){return Colors.RED + StatusMessages.NOT_EXISTING.getMessage().replace("SERVICE", serviceName);}
             startService(serviceName);
             return serviceStarting;
         }
         if(serviceI[1].equalsIgnoreCase("server")){
             if(container.getJVMExecutorsServers().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.SERVER);return serviceStarting;}
-            return Colors.RED + StatusMessages.NOT_SERVER.replace("SERVICE", serviceName);
+            return Colors.RED + StatusMessages.NOT_SERVER.getMessage().replace("SERVICE", serviceName);
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(container.getJVMExecutorsProxy().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.PROXY);return serviceStarting;}
-            return Colors.RED + StatusMessages.NOT_PROXY.replace("SERVICE", serviceName);
+            return Colors.RED + StatusMessages.NOT_PROXY.getMessage().replace("SERVICE", serviceName);
         }
-        return Colors.RED + StatusMessages.NOT_EXISTING.replace("SERVICE", serviceName);
+        return Colors.RED + StatusMessages.NOT_EXISTING.getMessage().replace("SERVICE", serviceName);
     }
 
     public EmbedBuilder startB(String @NotNull [] serviceI){
         serviceName = serviceI[0];
         EmbedBuilder successEmbed = new EmbedBuilder()
                 .setColor(Color.GREEN)
-                .setTitle(StatusMessages.NOW_STARTING.replace("SERVICE", serviceName));
+                .setTitle(StatusMessages.NOW_STARTING.getMessage().replace("SERVICE", serviceName));
         EmbedBuilder alreadyRunning = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.ALREADY_RUNNING.replace("SERVICE", serviceName));
+                .setTitle(StatusMessages.ALREADY_RUNNING.getMessage().replace("SERVICE", serviceName));
         EmbedBuilder proxyNotLaunched = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.NO_PROXY_STARTED)
+                .setTitle(StatusMessages.NO_PROXY_STARTED.getMessage())
                 .setDescription("To Launch a Server, a Proxy must be Running");
         EmbedBuilder innexistantService = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.NOT_EXISTING.replace("SERVICE", serviceName));
+                .setTitle(StatusMessages.NOT_EXISTING.getMessage().replace("SERVICE", serviceName));
         EmbedBuilder doubleService = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.DOUBLE_SERVICE.replace("SERVICE", serviceName))
+                .setTitle(StatusMessages.DOUBLE_SERVICE.getMessage().replace("SERVICE", serviceName))
                 .setDescription("Type '" + serviceName + " server' for the server and '" + serviceName + " proxy' for the proxy");
         EmbedBuilder incorrectST = new EmbedBuilder()
                 .setColor(Color.RED)
-                .setTitle(StatusMessages.INCORRECT_TYPE);
+                .setTitle(StatusMessages.INCORRECT_TYPE.getMessage());
 
         if(serviceI.length == 1){
             if(Services.isBoth(serviceName)){return doubleService;}
@@ -74,14 +74,14 @@ public class ServicesStarter {
                 if(!Services.isProxyLaunched()){return proxyNotLaunched;}
             }
             if(container.getJVMExecutorsServers().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.SERVER);return successEmbed;}
-            return incorrectST.setDescription(StatusMessages.NOT_SERVER.replace("SERVICE", serviceName));
+            return incorrectST.setDescription(StatusMessages.NOT_SERVER.getMessage().replace("SERVICE", serviceName));
         }
         if(serviceI[1].equalsIgnoreCase("proxy")){
             if(!Services.isDynamic(serviceName, IContainer.JVMType.PROXY)){
                 if(Services.isLaunched(serviceName, IContainer.JVMType.PROXY)){return alreadyRunning; }
                 if(container.getJVMExecutorsProxy().containsKey(serviceName)){startService(serviceName, IContainer.JVMType.PROXY);return successEmbed;}
             }
-            return incorrectST.setDescription(StatusMessages.NOT_PROXY.replace("SERVICE", serviceName));
+            return incorrectST.setDescription(StatusMessages.NOT_PROXY.getMessage().replace("SERVICE", serviceName));
         }
         return innexistantService;
     }

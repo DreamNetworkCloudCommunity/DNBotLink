@@ -1,8 +1,8 @@
 package fr.benjimania74.dnbotlink.utils;
 
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.ConsolePath;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.ConsolePath;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

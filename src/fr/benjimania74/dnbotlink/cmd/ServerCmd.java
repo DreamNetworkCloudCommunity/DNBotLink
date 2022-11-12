@@ -1,8 +1,8 @@
 package fr.benjimania74.dnbotlink.cmd;
 
 import be.alexandre01.dreamnetwork.api.commands.Command;
-import be.alexandre01.dreamnetwork.client.console.Console;
-import be.alexandre01.dreamnetwork.client.console.colors.Colors;
+import be.alexandre01.dreamnetwork.core.console.Console;
+import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.utils.Services;
 import fr.benjimania74.dnbotlink.utils.ServicesStarter;
 import fr.benjimania74.dnbotlink.utils.ServicesStopper;
@@ -12,7 +12,8 @@ public class ServerCmd extends Command {
         super(name);
 
         addSubCommand("start", args -> {
-            if(args.length == 1){Console.print(Colors.RED + "Format: server start <service> [<proxy | server>]");return true;}
+            if(args.length == 1){
+                Console.print(Colors.RED + "Format: server start <service> [<proxy | server>]");return true;}
 
             String[] serviceI;
             if(args.length == 2){ serviceI = new String[]{args[1]}; }else{ serviceI = new String[]{args[1], args[2]}; }

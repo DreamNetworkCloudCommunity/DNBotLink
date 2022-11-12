@@ -1,4 +1,6 @@
-# DNBotLink v0.0.5-dev
+# DNBotLink v0.0.6-dev
+
+Only available on BUILDS version of the DreamNetwork
 
 #### Start the Bot
 

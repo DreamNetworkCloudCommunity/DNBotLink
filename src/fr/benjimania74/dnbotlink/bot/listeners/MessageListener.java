@@ -2,7 +2,7 @@ package fr.benjimania74.dnbotlink.bot.listeners;
 
 
 import be.alexandre01.dreamnetwork.api.service.IContainer;
-import be.alexandre01.dreamnetwork.client.utils.messages.Message;
+import be.alexandre01.dreamnetwork.core.utils.messages.Message;
 import fr.benjimania74.dnbotlink.Main;
 import fr.benjimania74.dnbotlink.bot.BotConfig;
 import fr.benjimania74.dnbotlink.bot.BotMain;
@@ -30,7 +30,7 @@ public class MessageListener extends ListenerAdapter {
                             Message message = new Message();
                             message.setHeader("DNBot-Chat");
                             message.set("Chat", msg);
-                            Main.clientAPI.getContainer().getJVMExecutorsServers().get(name).getService(0).getClient().writeAndFlush(message);
+                            Main.coreAPI.getContainer().getJVMExecutorsServers().get(name).getService(0).getClient().writeAndFlush(message);
                         }
                     }
                 }
@@ -51,7 +51,7 @@ public class MessageListener extends ListenerAdapter {
 
         if(event.getMessage().getContentRaw().startsWith(BotConfig.getInstance().getPrefix())){
             String cmd = event.getMessage().getContentRaw().split(" ")[0].substring(BotConfig.getInstance().getPrefix().length());
-            if(BotMain.commandsList.containsKey(cmd)){BotMain.commandsList.get(cmd).execute((TextChannel) event.getChannel(), Main.clientAPI, event.getMessage());}
+            if(BotMain.commandsList.containsKey(cmd)){BotMain.commandsList.get(cmd).execute((TextChannel) event.getChannel(), Main.coreAPI, event.getMessage());}
         }
 
         BotConfig.getInstance().getLinks().forEach((service, id) -> {
