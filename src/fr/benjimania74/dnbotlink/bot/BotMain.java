@@ -5,7 +5,7 @@ import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.bot.cmd.Command;
 import fr.benjimania74.dnbotlink.bot.listeners.MessageListener;
 import fr.benjimania74.dnbotlink.bot.utils.CommandsRegister;
-import fr.benjimania74.dnbotlink.utils.FilesManager;
+import fr.benjimania74.dnbotlink.bot.utils.TokenManager;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -21,31 +21,28 @@ public class BotMain {
     public JDA jda;
     public static HashMap<String, Command> commandsList;
 
-    public boolean create(){
+    public BotMain(){
         instance = this;
         commandsList = new HashMap<>();
 
-        try{
+        try {
             new BotConfig();
+            new TokenManager();
 
-            String token = FilesManager.getInstance().read("token");
-
+            String token = TokenManager.getToken();
             JDABuilder builder = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MEMBERS)
                     .setChunkingFilter(ChunkingFilter.ALL)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setStatus(OnlineStatus.fromKey(BotConfig.getInstance().getStatus()))
                     .setActivity(Activity.playing(BotConfig.getInstance().getActivity() + " | Type " + BotConfig.getInstance().getPrefix() + "help"));
-
             jda = builder.build();
             new CommandsRegister().register();
             jda.addEventListener(new MessageListener());
 
             Console.print(Colors.GREEN_BACKGROUND + "The Bot is started");
-            return true;
         }catch (Exception e){
             Console.print(Colors.RED_BACKGROUND + "The Bot can't be started");
-            e.printStackTrace();
-            return false;
+            Console.print(Colors.RED + "You will only be able to use Console's commands");
         }
     }
 
@@ -53,6 +50,5 @@ public class BotMain {
         commandsList.put(command.getName(), command);
         for(Command cmd : commands){commandsList.put(cmd.getName(), cmd);}
     }
-    public void unregisterCommand(Command command){commandsList.remove(command.getName());}
     public HashMap<String, Command> getCommands(){return commandsList;}
 }

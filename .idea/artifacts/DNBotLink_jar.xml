@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DNBotLink:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DNBotLink_jar</output-path>
+    <root id="archive" name="DNBotLink.jar">
+      <element id="module-output" name="dnbotlink" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../DNConfigManagerAPI/out/artifacts/DNConfigManagerAPI_jar/DNConfigManagerAPI.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/lombok.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/JDA-4.4.0_350-withDependencies.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/OneDrive/Documents/api/DreamNetwork-Plugin-api.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

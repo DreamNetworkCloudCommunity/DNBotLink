@@ -9,16 +9,15 @@ import fr.benjimania74.dnbotlink.cmd.CreateCmd;
 import fr.benjimania74.dnbotlink.cmd.ServerCmd;
 
 public class CommandsRegister {
-    public static boolean register(DNCoreAPI coreAPI){
+    public CommandsRegister(DNCoreAPI coreAPI){
         try {
             coreAPI.getCommandReader().getCommands().addCommands(new ServerCmd("server"));
             coreAPI.getCommandReader().getCommands().addCommands(new ClientsCmd("clients"));
             coreAPI.getCommandReader().getCommands().addCommands(new AutoStarterCmd("autostart"));
             coreAPI.getCommandReader().getCommands().addCommands(new CreateCmd("create"));
-            return true;
         }catch (Exception e){
             Console.print(Colors.RED + "[ERROR] Commands can't be registered");
-            return false;
+            Console.print(Colors.RED_BACKGROUND + "The Addon is non-usable");
         }
     }
 }

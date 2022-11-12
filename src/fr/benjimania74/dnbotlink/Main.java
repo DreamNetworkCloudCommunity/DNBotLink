@@ -11,7 +11,6 @@ import fr.benjimania74.dnbotlink.bot.BotMain;
 import fr.benjimania74.dnbotlink.utils.CustomResponse;
 import fr.benjimania74.dnbotlink.registers.CommandsRegister;
 import fr.benjimania74.dnbotlink.registers.ListenerRegister;
-import fr.benjimania74.dnbotlink.utils.FilesManager;
 import fr.benjimania74.dnbotlink.utils.ServiceAutoStarter;
 
 public class Main extends DreamExtension {
@@ -28,8 +27,7 @@ public class Main extends DreamExtension {
         addonName = getAddon().getDreamyName();
         addonVersion = getAddon().getVersion();
         new Config(addonName);
-        new FilesManager();
-        if(!new BotMain().create()){Console.print("The Bot can't be Started, you will be able to use only the Console's Commands");}
+        new BotMain();
         Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Loaded");
     }
 
@@ -37,15 +35,12 @@ public class Main extends DreamExtension {
     public void start() {
         super.start();
         coreAPI = getDnCoreAPI();
-        if(!CommandsRegister.register(coreAPI)){Console.print(Colors.RED + "Can't register the Commands, the Addon will not be able to be used");}
-        if(!ListenerRegister.register(coreAPI)){Console.print(Colors.RED + "Can't register the listeners, the Addon will not be able to be used correctly");}
-
-        Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
-        new ServiceAutoStarter();
-
-        // InstallFile.installPaper("./paper-1.8.8.jar", "1.8.8"); <- INSTALL PAPER SPIGOT 1.8.8
+        new CommandsRegister(coreAPI);
+        new ListenerRegister(coreAPI);
 
         coreAPI.getGlobalResponses().add(new CustomResponse());
+        Console.print(Colors.YELLOW + "[" + Colors.GREEN + addonName + Colors.YELLOW + "] " + Colors.CYAN + "The Plugin is Started");
+        new ServiceAutoStarter();
     }
 
     @Override

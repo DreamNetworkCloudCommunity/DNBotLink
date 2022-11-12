@@ -8,16 +8,14 @@ import fr.benjimania74.dnbotlink.listeners.ServiceStartListener;
 import fr.benjimania74.dnbotlink.listeners.ServiceStopListener;
 
 public class ListenerRegister {
-    public static boolean register(DNCoreAPI coreAPI){
+    public ListenerRegister(DNCoreAPI coreAPI){
         try{
             coreAPI.getEventsFactory().registerListener(new ServiceStartListener());
             coreAPI.getEventsFactory().registerListener(new ServiceStopListener());
             coreAPI.getEventsFactory().registerListener(new ServiceScreenStartListener());
-            return true;
         }catch (Exception e){
             Console.print(Colors.RED + "[ERROR] Listeners can't be registered");
-            return false;
+            Console.print(Colors.RED_BACKGROUND + "The Addon is non-usable");
         }
-
     }
 }

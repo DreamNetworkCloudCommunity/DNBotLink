@@ -8,14 +8,14 @@ import java.util.Objects;
 
 public class SendMessage {
     public static void send(String msg, Object channelID){
-        if(!channelExist(channelID)){return;}
+        if(!channelExists(channelID)){return;}
         send(msg, Objects.requireNonNull(BotMain.instance.jda.getTextChannelById((String) channelID)));
     }
 
     public static void send(String msg, TextChannel channel){channel.sendMessage(msg).queue(); }
 
     public static void send(MessageEmbed embed, String channelID){
-        if(!channelExist(channelID)){return;}
+        if(!channelExists(channelID)){return;}
         send(embed, Objects.requireNonNull(BotMain.instance.jda.getTextChannelById(channelID)));
     }
 
@@ -23,7 +23,7 @@ public class SendMessage {
         channel.sendMessageEmbeds(embed).queue();
     }
 
-    private static boolean channelExist(Object channelID){
+    private static boolean channelExists(Object channelID){
         for(TextChannel channel : BotMain.instance.jda.getTextChannels()){if(channel.getId().equals(channelID)){return true;}}
         return false;
     }

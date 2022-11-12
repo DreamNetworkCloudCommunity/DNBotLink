@@ -7,8 +7,6 @@ import fr.benjimania74.configmanager.Config;
 import fr.benjimania74.configmanager.EncodedConfigManager;
 import fr.benjimania74.dnbotlink.Main;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.util.ArrayList;
 import java.util.Base64;

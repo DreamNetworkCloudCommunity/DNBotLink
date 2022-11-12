@@ -8,7 +8,6 @@ import fr.benjimania74.dnbotlink.utils.ScreenReader;
 public class ServiceScreenStartListener implements Listener {
     @EventCatcher
     public void onServiceScreenStart(CoreScreenCreateEvent event){
-        Thread thread = new Thread(new ScreenReader(event.getScreen().getService().getProcess(), event.getScreen().getService().getJvmExecutor().getName()));
-        thread.start();
+        new ScreenReader(event.getScreen().getService().getProcess(), event.getScreen().getService().getJvmExecutor().getName());
     }
 }
