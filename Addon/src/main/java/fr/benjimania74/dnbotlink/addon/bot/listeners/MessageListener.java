@@ -1,5 +1,6 @@
 package fr.benjimania74.dnbotlink.addon.bot.listeners;
 
+import be.alexandre01.dreamnetwork.api.connection.request.RequestType;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
@@ -21,11 +22,12 @@ public class MessageListener extends ListenerAdapter {
 
         main.getServiceScreenReaders().forEach((service, screenReader) -> {
             if(screenReader.getValidChannels().contains(channel.asTextChannel())){
-                try {
-                    service.getScreen().getScreenStream().getScreenOutWriter().writeOnConsole(content);
+                service.getClient().getRequestManager().sendRequest(RequestType.SERVER_EXECUTE_COMMAND, content);
+                /*try {
+                    //service.getScreen().getScreenStream().getScreenOutWriter().writeOnConsole(content);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
-                }
+                }*/
             }
         });
     }

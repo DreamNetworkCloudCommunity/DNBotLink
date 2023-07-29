@@ -1,6 +1,5 @@
 package fr.benjimania74.dnbotlink.addon.utils.config;
 
-import jdk.nashorn.internal.runtime.ParserException;
 import net.dv8tion.jda.api.OnlineStatus;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -51,7 +50,7 @@ public class ConfigManager {
                     String prefix = (String) object.getOrDefault("prefix", "DN.");
 
                     botConfig = new BotConfig(token, activity, permRole, status, prefix);
-                }catch (ParserException | ParseException e){
+                }catch (ParseException e){
                     botConfig = new BotConfig();
                     saveBotConfig();
                 }
@@ -70,7 +69,7 @@ public class ConfigManager {
                     HashMap<String, List<String>> chatLink = (HashMap<String, List<String>>) object.getOrDefault("chat", new HashMap<>());
 
                     linkConfig = new LinkConfig(consoleLink, chatLink);
-                }catch (ParserException | ParseException e){
+                }catch (ParseException e){
                     linkConfig = new LinkConfig();
                     saveLinkConfig();
                 }
@@ -92,7 +91,7 @@ public class ConfigManager {
 
                     autostart.put("servers", servers);
                     autostart.put("proxies", proxies);
-                }catch (ParserException | ParseException e){
+                }catch (ParseException e){
                     linkConfig = new LinkConfig();
                     saveLinkConfig();
                 }
