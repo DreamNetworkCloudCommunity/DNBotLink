@@ -1,6 +1,0 @@
-name: DNBotLink
-author: benjimania74
-version: 0.0.7-dev
-main: fr.benjimania74.dnbotlink.spigot.SpigotMain
-depend:
-  - DreamNetwork-Core
