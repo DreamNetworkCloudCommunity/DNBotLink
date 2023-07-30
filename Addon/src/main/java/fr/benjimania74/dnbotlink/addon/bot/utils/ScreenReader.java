@@ -1,6 +1,7 @@
 package fr.benjimania74.dnbotlink.addon.bot.utils;
 
 import be.alexandre01.dreamnetwork.api.service.IService;
+import be.alexandre01.dreamnetwork.api.service.screen.IScreenStream;
 import fr.benjimania74.dnbotlink.addon.bot.BotMain;
 import lombok.Getter;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
@@ -19,11 +20,11 @@ public class ScreenReader {
         if(!BotMain.getInstance().isStarted()){return;}
         timer();
 
-        service.getScreen().getScreenStream().getScreenInReader().getReaderLines().add(line -> {
-            /*List<ThreadChannel> c = AddonMain.getInstance().getTempConsoles().getOrDefault(service, new ArrayList<>());
-            if(c != this.channels){
-                this.channels = c;
-            }*/
+        IScreenStream screenStream = service.getScreen().getScreenStream();
+        while (screenStream == null){
+            screenStream = service.getScreen().getScreenStream();
+        }
+        screenStream.getScreenInReader().getReaderLines().add(line -> {
             addLine(line);
             return line;
         });
