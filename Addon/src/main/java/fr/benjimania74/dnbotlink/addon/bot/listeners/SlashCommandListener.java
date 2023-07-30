@@ -20,22 +20,7 @@ public class SlashCommandListener extends ListenerAdapter {
         Command command = CommandManager.getInstance().getCommand(cmd);
         if(command == null){return;}
 
-        boolean executeCommand = true;
-
-        if(command.isPermCommand() && !AddonMain.getInstance().getConfigManager().getBotConfig().getPermRole().equalsIgnoreCase("everyone")){
-            Guild guild = event.getGuild();
-            Member sender = event.getMember();
-            Role permRole = null;
-            for(Role r : guild.getRoles()){
-                if(r.getId().equals(AddonMain.getInstance().getConfigManager().getBotConfig().getPermRole())){
-                    permRole = r;
-                    break;
-                }
-            }
-            executeCommand = (permRole != null && sender.getRoles().contains(permRole));
-        }
-
-        if(!executeCommand) {
+        if(!isExecuteCommand(event, command)) {
             event.replyEmbeds(
                     new EmbedBuilder()
                             .setColor(Color.RED)
@@ -47,5 +32,24 @@ public class SlashCommandListener extends ListenerAdapter {
         }
 
         command.execute(event);
+    }
+
+    private boolean isExecuteCommand(SlashCommandInteractionEvent event, Command command) {
+        boolean executeCommand = true;
+
+        if(command.isPermCommand() && !AddonMain.getInstance().getConfigManager().getBotConfig().getPermRole().equalsIgnoreCase("everyone")){
+            Guild guild = event.getGuild();
+            Member sender = event.getMember();
+            Role permRole = null;
+            assert guild != null;
+            for(Role r : guild.getRoles()){
+                if(r.getId().equals(AddonMain.getInstance().getConfigManager().getBotConfig().getPermRole())){
+                    permRole = r;
+                    break;
+                }
+            }
+            executeCommand = (permRole != null && sender.getRoles().contains(permRole));
+        }
+        return executeCommand;
     }
 }

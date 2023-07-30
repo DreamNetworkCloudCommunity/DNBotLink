@@ -1,9 +1,10 @@
 package fr.benjimania74.dnbotlink.addon.bot;
 
+import be.alexandre01.dreamnetwork.core.console.Console;
 import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.MessageListener;
-import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandAutoCompleteListerner;
+import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandAutoCompleteListener;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandListener;
 import fr.benjimania74.dnbotlink.addon.utils.config.BotConfig;
 import lombok.Getter;
@@ -47,18 +48,26 @@ public class BotMain {
 
             jda.updateCommands().addCommands(
                     Commands.slash("start", "Start a Service")
-                            .addOption(OptionType.STRING, "service", "Service Name or Bundle", true, true)
+                            .addOption(OptionType.STRING, "service", "Service's Name or Bundle", true, true)
                             .setGuildOnly(true),
                     Commands.slash("stop", "Stop a Service")
                             .addOption(OptionType.STRING, "service", "Started Service Identifier", true, true)
                             .setGuildOnly(true),
-                    Commands.slash("consolelink", "Link a Server's Console with a Discord Channel")
-                            .addOption(OptionType.STRING, "server", "Server Name or Bundle to link the Console with", true, true)
+                    Commands.slash("enableconsole", "Enable a Server's Console on Discord")
+                            .addOption(OptionType.STRING, "server", "Server's Name or Bundle to Enable Console on Discord", true, true)
+                            .setGuildOnly(true),
+                    Commands.slash("disableconsole", "Disable a Server's Console on Discord")
+                            .addOption(OptionType.STRING, "server", "Server's Name or Bundle to Disable Console on Discord", true, true)
+                            .setGuildOnly(true),
+                    Commands.slash("consolelink", "Link a Server's Console with a Discord Thread Channel")
+                            .addOption(OptionType.STRING, "server", "Servers Name or Bundle to link the Console with", true, true)
+                            .setGuildOnly(true),
+                    Commands.slash("consoleunlink", "Unlink a Server's Console with a Discord Thread Channel")
                             .setGuildOnly(true)
             ).queue();
 
             jda.addEventListener(new SlashCommandListener());
-            jda.addEventListener(new SlashCommandAutoCompleteListerner());
+            jda.addEventListener(new SlashCommandAutoCompleteListener());
             jda.addEventListener(new MessageListener());
 
             main.print(Colors.GREEN + "Discord Bot Started");
@@ -77,7 +86,7 @@ public class BotMain {
                 }
                 started = false;
             }catch (InterruptedException ie){
-                ie.printStackTrace();
+                Console.bug(ie);
             }
         }
     }

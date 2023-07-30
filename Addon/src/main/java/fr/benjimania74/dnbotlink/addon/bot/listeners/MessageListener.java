@@ -3,12 +3,11 @@ package fr.benjimania74.dnbotlink.addon.bot.listeners;
 import be.alexandre01.dreamnetwork.api.connection.request.RequestType;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 public class MessageListener extends ListenerAdapter {
     @Override
@@ -20,15 +19,15 @@ public class MessageListener extends ListenerAdapter {
 
         if(sender.isBot()){return;}
 
-        main.getServiceScreenReaders().forEach((service, screenReader) -> {
-            if(screenReader.getValidChannels().contains(channel.asTextChannel())){
-                service.getClient().getRequestManager().sendRequest(RequestType.SERVER_EXECUTE_COMMAND, content);
-                /*try {
-                    //service.getScreen().getScreenStream().getScreenOutWriter().writeOnConsole(content);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }*/
-            }
-        });
+        if(channel.getType().isThread()) {
+            main.getServiceScreenReaders().forEach((service, screenReader) -> {
+                for (ThreadChannel tc : screenReader.getChannels()) {
+                    if (tc.getId().equals(channel.getId())) {
+                        service.getClient().getRequestManager().sendRequest(RequestType.SERVER_EXECUTE_COMMAND, content);
+                        return;
+                    }
+                }
+            });
+        }
     }
 }

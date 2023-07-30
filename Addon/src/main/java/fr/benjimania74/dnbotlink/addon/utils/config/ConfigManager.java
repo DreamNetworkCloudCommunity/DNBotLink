@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ConfigManager {
-    private final Path folder = Paths.get("addons/DNBotLink");
+    private final Path folder = Paths.get((System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("Windows") ? "" : "/") + "addons/DNBotLink");
 
     @Getter private BotConfig botConfig;
     @Getter private LinkConfig linkConfig;
@@ -65,7 +65,7 @@ public class ConfigManager {
                 try{
                     object = (JSONObject) parser.parse(new FileReader(f));
 
-                    HashMap<String, List<String>> consoleLink = (HashMap<String, List<String>>) object.getOrDefault("console", new HashMap<>());
+                    List<String> consoleLink = (List<String>) object.getOrDefault("console", new ArrayList<>());
                     HashMap<String, List<String>> chatLink = (HashMap<String, List<String>>) object.getOrDefault("chat", new HashMap<>());
 
                     linkConfig = new LinkConfig(consoleLink, chatLink);

@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>Addon</module>
-        <module>Spigot</module>
+        <module>Plugin</module>
     </modules>
 
     <properties>
@@ -18,8 +18,4 @@
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
-    <build>
-        <directory>target</directory>
-    </build>
 </project>
