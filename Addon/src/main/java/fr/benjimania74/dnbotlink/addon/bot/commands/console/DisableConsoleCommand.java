@@ -2,15 +2,17 @@ package fr.benjimania74.dnbotlink.addon.bot.commands.console;
 
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
+import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.awt.*;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class DisableConsoleCommand extends Command {
-    public DisableConsoleCommand(String name, String description, boolean permCommand) {
-        super(name, description, permCommand);
+    public DisableConsoleCommand(String name, String description, boolean permCommand, LinkedHashMap<String, ArgumentCompleter> argumentsCompleter) {
+        super(name, description, permCommand, argumentsCompleter);
     }
 
     @Override

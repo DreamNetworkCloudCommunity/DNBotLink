@@ -3,6 +3,8 @@ package fr.benjimania74.dnbotlink.addon.bot;
 import be.alexandre01.dreamnetwork.core.console.Console;
 import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
+import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
+import fr.benjimania74.dnbotlink.addon.bot.commands.CommandManager;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.MessageListener;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandAutoCompleteListener;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandListener;
@@ -11,13 +13,15 @@ import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BotMain {
     @Getter private static BotMain instance;
@@ -46,25 +50,19 @@ public class BotMain {
             jda = builder.build();
             new CommandManager();
 
-            jda.updateCommands().addCommands(
-                    Commands.slash("start", "Start a Service")
-                            .addOption(OptionType.STRING, "service", "Service's Name or Bundle", true, true)
-                            .setGuildOnly(true),
-                    Commands.slash("stop", "Stop a Service")
-                            .addOption(OptionType.STRING, "service", "Started Service Identifier", true, true)
-                            .setGuildOnly(true),
-                    Commands.slash("enableconsole", "Enable a Server's Console on Discord")
-                            .addOption(OptionType.STRING, "server", "Server's Name or Bundle to Enable Console on Discord", true, true)
-                            .setGuildOnly(true),
-                    Commands.slash("disableconsole", "Disable a Server's Console on Discord")
-                            .addOption(OptionType.STRING, "server", "Server's Name or Bundle to Disable Console on Discord", true, true)
-                            .setGuildOnly(true),
-                    Commands.slash("consolelink", "Link a Server's Console with a Discord Thread Channel")
-                            .addOption(OptionType.STRING, "server", "Servers Name or Bundle to link the Console with", true, true)
-                            .setGuildOnly(true),
-                    Commands.slash("consoleunlink", "Unlink a Server's Console with a Discord Thread Channel")
-                            .setGuildOnly(true)
-            ).queue();
+            List<SlashCommandData> commands = new ArrayList<>();
+            for(Command command : CommandManager.getInstance().getCommands()){
+                SlashCommandData cmd = Commands.slash(command.getName(), command.getDescription());
+                if(command.getArgumentsCompleter() != null){
+                    command.getArgumentsCompleter().forEach((name, completer) -> {
+                        cmd.addOption(completer.getType(), name, completer.getDescription(), true, true);
+                    });
+                }
+                cmd.setGuildOnly(true);
+                commands.add(cmd);
+            }
+
+            jda.updateCommands().addCommands(commands).queue();
 
             jda.addEventListener(new SlashCommandListener());
             jda.addEventListener(new SlashCommandAutoCompleteListener());

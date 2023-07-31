@@ -3,15 +3,17 @@ package fr.benjimania74.dnbotlink.addon.bot.commands.console;
 import be.alexandre01.dreamnetwork.api.service.IService;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
+import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.requests.restaction.ThreadChannelAction;
 
 import java.awt.*;
+import java.util.LinkedHashMap;
 
 public class ConsoleLinkCommand extends Command {
-    public ConsoleLinkCommand(String name, String description, boolean permCommand) {
-        super(name, description, permCommand);
+    public ConsoleLinkCommand(String name, String description, boolean permCommand, LinkedHashMap<String, ArgumentCompleter> argumentsCompleter) {
+        super(name, description, permCommand, argumentsCompleter);
     }
 
     @Override

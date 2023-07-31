@@ -2,18 +2,20 @@ package fr.benjimania74.dnbotlink.addon.bot.commands.console;
 
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
+import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
 import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.awt.*;
+import java.util.LinkedHashMap;
 
 public class ConsoleUnlinkCommand extends Command {
     private boolean found = false;
 
-    public ConsoleUnlinkCommand(String name, String description, boolean permCommand) {
-        super(name, description, permCommand);
+    public ConsoleUnlinkCommand(String name, String description, boolean permCommand, LinkedHashMap<String, ArgumentCompleter> argumentsCompleter) {
+        super(name, description, permCommand, argumentsCompleter);
     }
 
     @Override

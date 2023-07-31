@@ -5,17 +5,19 @@ import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
 import be.alexandre01.dreamnetwork.api.service.IService;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
+import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.awt.*;
+import java.util.LinkedHashMap;
 
 public class StartCommand extends Command {
     private MessageEmbed embed;
 
-    public StartCommand(String name, String description, boolean permCommand) {
-        super(name, description, permCommand);
+    public StartCommand(String name, String description, boolean permCommand, LinkedHashMap<String, ArgumentCompleter> argumentsCompleter) {
+        super(name, description, permCommand, argumentsCompleter);
     }
 
     @Override

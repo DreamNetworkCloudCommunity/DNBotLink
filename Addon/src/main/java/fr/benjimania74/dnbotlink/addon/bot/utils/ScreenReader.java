@@ -17,7 +17,7 @@ public class ScreenReader {
     private boolean stop = false;
 
     public ScreenReader(IService service){
-        if(!BotMain.getInstance().isStarted()){return;}
+        if(!BotMain.getInstance().isStarted() || service.getJvmExecutor().isProxy()){return;}
         timer();
 
         IScreenStream screenStream = service.getScreen().getScreenStream();
