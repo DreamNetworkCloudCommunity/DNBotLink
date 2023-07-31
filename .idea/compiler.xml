@@ -11,10 +11,5 @@
         <module name="Plugin" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="BungeeCord" target="1.8" />
-      <module name="DNBotLink" target="1.8" />
-      <module name="Velocity" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

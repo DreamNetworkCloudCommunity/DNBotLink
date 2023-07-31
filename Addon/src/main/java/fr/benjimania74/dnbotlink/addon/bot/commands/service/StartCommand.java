@@ -74,9 +74,6 @@ public class StartCommand extends Command {
                         if(jvm.isProxy() || !main.getConfigManager().getLinkConfig().getConsoleLinks().contains(service)){return;}
                         message.createThreadChannel(s.getFullName() + "'s Console").queue(threadChannel -> {
                             main.getServiceScreenReaders().get(s).getChannels().add(threadChannel);
-                            //List<ThreadChannel> threadChannels = main.getTempConsoles().getOrDefault(s, new ArrayList<>());
-                            //threadChannels.add(threadChannel);
-                            //main.getTempConsoles().put(s, threadChannels);
                         });
                     }
                 });

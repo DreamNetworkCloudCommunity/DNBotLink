@@ -11,9 +11,11 @@ public class ServiceStopListener implements Listener {
     @EventCatcher
     public void onStop(CoreServiceStopEvent event){
         IService service = event.getService();
-        AddonMain main = AddonMain.getInstance();
-        ScreenReader sc = main.getServiceScreenReaders().get(service);
-        sc.stop();
-        main.getServiceScreenReaders().remove(service);
+        if(!service.getJvmExecutor().isProxy()) {
+            AddonMain main = AddonMain.getInstance();
+            ScreenReader sc = main.getServiceScreenReaders().get(service);
+            sc.stop();
+            main.getServiceScreenReaders().remove(service);
+        }
     }
 }

@@ -20,12 +20,17 @@ public class SlashCommandAutoCompleteListener extends ListenerAdapter {
         switch (command){
             case "start":
                 if(option.equals("service")){
-                    List<IJVMExecutor> jvmExecutors = main.getCoreAPI().getContainer().getJVMExecutors();
+                    List<String> jvmNames = new ArrayList<>();
+                    for(IJVMExecutor jvm : main.getCoreAPI().getContainer().getJVMExecutors()){
+                        if(jvm.getType().equals(IJVMExecutor.Mods.DYNAMIC) || (jvm.getType().equals(IJVMExecutor.Mods.STATIC) && jvm.getServices().isEmpty())){
+                            jvmNames.add(jvm.getFullName());
+                        }
+                    }
 
                     event.replyChoices(
-                            jvmExecutors.stream()
-                                    .filter(jvm -> jvm.getFullName().startsWith(event.getFocusedOption().getValue()))
-                                    .map(jvm -> new Command.Choice(jvm.getFullName(), jvm.getFullName()))
+                            jvmNames.stream()
+                                    .filter(name -> name.startsWith(event.getFocusedOption().getValue()))
+                                    .map(name -> new Command.Choice(name, name))
                                     .collect(Collectors.toList())
                     ).queue();
                 }

@@ -5,6 +5,7 @@ import be.alexandre01.dreamnetwork.api.commands.sub.NodeBuilder;
 import be.alexandre01.dreamnetwork.api.commands.sub.SubCommand;
 import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.AddonMain;
+import fr.benjimania74.dnbotlink.addon.bot.BotMain;
 import fr.benjimania74.dnbotlink.addon.utils.config.BotConfig;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +32,7 @@ public class Token extends SubCommand {
             config.setToken(sArgs[1]);
             main.getConfigManager().saveBotConfig();
             main.print(Colors.GREEN + "The Discord Bot's Token has been changed");
+            BotMain.getInstance().restart();
             return true;
         }, args, "token", "[Discord Bot's Token]");
     }

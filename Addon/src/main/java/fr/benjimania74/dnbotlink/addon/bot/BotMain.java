@@ -42,7 +42,7 @@ public class BotMain {
                     .setChunkingFilter(ChunkingFilter.ALL)
                     .setMemberCachePolicy(MemberCachePolicy.ALL)
                     .setStatus(config.getStatus())
-                    .setActivity(Activity.playing((config.getActivity().isEmpty() ? "" : config.getActivity() + " | ") + "Type " + config.getPrefix() + "help"));
+                    .setActivity(Activity.playing((config.getActivity().isEmpty() ? "" : config.getActivity() + " | ") + "By benjimania74"));
             jda = builder.build();
             new CommandManager();
 

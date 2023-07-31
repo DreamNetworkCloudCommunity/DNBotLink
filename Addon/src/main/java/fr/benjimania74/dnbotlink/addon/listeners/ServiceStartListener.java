@@ -11,8 +11,10 @@ public class ServiceStartListener implements Listener {
     @EventCatcher
     public void onStart(CoreScreenCreateEvent event){
         IService service = event.getScreen().getService();
-        AddonMain main = AddonMain.getInstance();
 
-        main.getServiceScreenReaders().put(service, new ScreenReader(service));
+        if(!service.getJvmExecutor().isProxy()) {
+            AddonMain main = AddonMain.getInstance();
+            main.getServiceScreenReaders().put(service, new ScreenReader(service));
+        }
     }
 }
