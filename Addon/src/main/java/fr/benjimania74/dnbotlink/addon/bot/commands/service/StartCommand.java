@@ -3,7 +3,7 @@ package fr.benjimania74.dnbotlink.addon.bot.commands.service;
 import be.alexandre01.dreamnetwork.api.service.ExecutorCallbacks;
 import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
 import be.alexandre01.dreamnetwork.api.service.IService;
-import fr.benjimania74.dnbotlink.addon.AddonMain;
+import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.EmbedBuilder;

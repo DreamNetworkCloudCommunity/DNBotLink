@@ -2,7 +2,7 @@ package fr.benjimania74.dnbotlink.addon.bot.commands.service;
 
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
-import fr.benjimania74.dnbotlink.addon.utils.service.StopService;
+import fr.benjimania74.dnbotlink.addon.dreamnetwork.utils.service.StopService;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;

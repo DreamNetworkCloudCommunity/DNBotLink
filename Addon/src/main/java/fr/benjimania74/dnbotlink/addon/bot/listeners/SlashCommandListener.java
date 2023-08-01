@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.addon.bot.listeners;
 
 import fr.benjimania74.dnbotlink.addon.bot.commands.CommandManager;
-import fr.benjimania74.dnbotlink.addon.AddonMain;
+import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;

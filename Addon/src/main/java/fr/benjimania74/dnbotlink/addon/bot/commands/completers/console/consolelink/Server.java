@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.addon.bot.commands.completers.console.consolelink;
 
-import fr.benjimania74.dnbotlink.addon.AddonMain;
+import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.Command;

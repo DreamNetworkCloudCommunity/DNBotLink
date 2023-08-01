@@ -2,13 +2,13 @@ package fr.benjimania74.dnbotlink.addon.bot;
 
 import be.alexandre01.dreamnetwork.core.console.Console;
 import be.alexandre01.dreamnetwork.core.console.colors.Colors;
-import fr.benjimania74.dnbotlink.addon.AddonMain;
+import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import fr.benjimania74.dnbotlink.addon.bot.commands.CommandManager;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.MessageListener;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandAutoCompleteListener;
 import fr.benjimania74.dnbotlink.addon.bot.listeners.SlashCommandListener;
-import fr.benjimania74.dnbotlink.addon.utils.config.BotConfig;
+import fr.benjimania74.dnbotlink.addon.bot.utils.BotConfig;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
