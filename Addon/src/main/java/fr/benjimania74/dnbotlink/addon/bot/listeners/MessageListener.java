@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.addon.bot.listeners;
 
-import be.alexandre01.dreamnetwork.api.connection.request.RequestType;
+import be.alexandre01.dreamnetwork.api.connection.core.request.RequestType;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;

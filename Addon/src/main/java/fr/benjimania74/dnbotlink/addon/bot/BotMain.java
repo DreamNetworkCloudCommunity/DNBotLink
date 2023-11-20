@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.addon.bot;
 
-import be.alexandre01.dreamnetwork.core.console.Console;
-import be.alexandre01.dreamnetwork.core.console.colors.Colors;
+import be.alexandre01.dreamnetwork.api.console.Console;
+import be.alexandre01.dreamnetwork.api.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import fr.benjimania74.dnbotlink.addon.bot.commands.CommandManager;
@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.managers.Presence;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -94,5 +95,14 @@ public class BotMain {
         int i = 0;
         while(isStarted()){i++;}
         start();
+    }
+
+    public void update(){
+        if(!isStarted()){return;}
+        BotConfig config = AddonMain.getInstance().getConfigManager().getBotConfig();
+        Presence presence = jda.getPresence();
+
+        presence.setActivity(Activity.playing((config.getActivity().isEmpty() ? "" : config.getActivity() + " | ") + "By benjimania74"));
+        presence.setStatus(config.getStatus());
     }
 }

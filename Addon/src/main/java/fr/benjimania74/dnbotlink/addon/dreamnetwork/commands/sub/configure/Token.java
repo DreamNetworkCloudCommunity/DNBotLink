@@ -3,7 +3,7 @@ package fr.benjimania74.dnbotlink.addon.dreamnetwork.commands.sub.configure;
 import be.alexandre01.dreamnetwork.api.commands.Command;
 import be.alexandre01.dreamnetwork.api.commands.sub.NodeBuilder;
 import be.alexandre01.dreamnetwork.api.commands.sub.SubCommand;
-import be.alexandre01.dreamnetwork.core.console.colors.Colors;
+import be.alexandre01.dreamnetwork.api.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.BotMain;
 import fr.benjimania74.dnbotlink.addon.bot.utils.BotConfig;

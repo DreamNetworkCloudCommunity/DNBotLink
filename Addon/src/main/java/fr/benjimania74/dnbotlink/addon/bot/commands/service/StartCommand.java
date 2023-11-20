@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.addon.bot.commands.service;
 
 import be.alexandre01.dreamnetwork.api.service.ExecutorCallbacks;
-import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
+import be.alexandre01.dreamnetwork.api.service.IExecutor;
 import be.alexandre01.dreamnetwork.api.service.IService;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
@@ -25,16 +25,38 @@ public class StartCommand extends Command {
         String service = event.getOption("service").getAsString();
 
         AddonMain main = AddonMain.getInstance();
-        IJVMExecutor jvm = main.getCoreAPI().getContainer().tryToGetJVMExecutor(service);
+        IExecutor executor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(service).orElse(null);
 
         States states;
-        if(jvm == null){
+        if(executor == null){states = States.NOT_FOUND;}
+        else{
+            if(!executor.isConfig()){
+                states = States.NOT_CONFIG;
+            } else if(!executor.getServices().isEmpty() && executor.getType().equals(IExecutor.Mods.STATIC)) {
+                states = States.ALREADY_STARTED;
+            } else {
+                states = States.STARTED;
+            }
+        }
+        /*Optional<IJVMExecutor> optionalIJVMExecutor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(service);
+
+
+        AtomicReference<IJVMExecutor> arJVM = new AtomicReference<>(null);
+        optionalIJVMExecutor.ifPresent(jvm -> {
+            System.out.println("présent !");
+        });*/
+
+        /*if(arJVM.get() == null){
             states = States.NOT_FOUND;
         }else{
+            System.out.println("a");
+            IJVMExecutor jvm = arJVM.get();
+            System.out.println("b");
             if(!jvm.isConfig()){states = States.NOT_CONFIG;}
             else if(!jvm.getServices().isEmpty() && jvm.getType().equals(IJVMExecutor.Mods.STATIC)){states = States.ALREADY_STARTED;}
             else {states = States.STARTED;}
-        }
+            System.out.println("d");
+        }*/
 
         switch (states){
             case STARTED:
@@ -67,13 +89,14 @@ public class StartCommand extends Command {
                 break;
         }
 
+        States finalStates = states;
         event.replyEmbeds(embed).queue(interactionHook -> {
-            if(states != States.STARTED){return;}
+            if(finalStates != States.STARTED){return;}
             interactionHook.editOriginal("").queue(message -> {
-                jvm.startServer().whenStart(new ExecutorCallbacks.ICallbackStart() {
+                executor.startServers(1).whenStart(new ExecutorCallbacks.ICallbackStart() {
                     @Override
                     public void whenStart(IService s) {
-                        if(jvm.isProxy() || !main.getConfigManager().getLinkConfig().getConsoleLinks().contains(service)){return;}
+                        if(executor.isProxy() || !main.getConfigManager().getLinkConfig().getConsoleLinks().contains(service)){return;}
                         message.createThreadChannel(s.getFullName() + "'s Console").queue(threadChannel -> {
                             main.getServiceScreenReaders().get(s).getChannels().add(threadChannel);
                         });

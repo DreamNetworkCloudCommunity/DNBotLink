@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.addon.bot.commands.console;
 
-import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
+import be.alexandre01.dreamnetwork.api.service.IExecutor;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
@@ -20,8 +20,8 @@ public class EnableConsoleCommand extends Command {
     public void execute(SlashCommandInteractionEvent event) {
         String server = event.getOption("server").getAsString();
         AddonMain main = AddonMain.getInstance();
-        IJVMExecutor jvmExecutor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(server);
-        if(jvmExecutor == null || jvmExecutor.isProxy()){
+        IExecutor executor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(server).orElse(null);
+        if(executor == null || executor.isProxy()){
             event.replyEmbeds(
                     new EmbedBuilder()
                             .setColor(Color.RED)

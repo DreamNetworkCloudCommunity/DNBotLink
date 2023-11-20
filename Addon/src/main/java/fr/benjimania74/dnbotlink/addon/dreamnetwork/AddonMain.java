@@ -3,10 +3,10 @@ package fr.benjimania74.dnbotlink.addon.dreamnetwork;
 import be.alexandre01.dreamnetwork.api.DNCoreAPI;
 import be.alexandre01.dreamnetwork.api.addons.Addon;
 import be.alexandre01.dreamnetwork.api.addons.DreamExtension;
+import be.alexandre01.dreamnetwork.api.console.Console;
+import be.alexandre01.dreamnetwork.api.console.IConsoleReader;
+import be.alexandre01.dreamnetwork.api.console.colors.Colors;
 import be.alexandre01.dreamnetwork.api.service.IService;
-import be.alexandre01.dreamnetwork.core.console.Console;
-import be.alexandre01.dreamnetwork.core.console.ConsoleReader;
-import be.alexandre01.dreamnetwork.core.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.bot.BotMain;
 import fr.benjimania74.dnbotlink.addon.bot.utils.ScreenReader;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.commands.CommandsRegister;
@@ -39,7 +39,7 @@ public class AddonMain extends DreamExtension {
         CommandsRegister.register(coreAPI.getCommandReader().getCommands());
         EventsRegister.register(coreAPI.getEventsFactory());
 
-        ConsoleReader.reloadCompleter();
+        IConsoleReader.reloadCompleters();
     }
 
     @Override

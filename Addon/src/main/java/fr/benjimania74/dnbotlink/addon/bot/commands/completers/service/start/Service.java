@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.addon.bot.commands.completers.service.start;
 
-import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
+import be.alexandre01.dreamnetwork.api.service.IExecutor;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -20,8 +20,8 @@ public class Service extends ArgumentCompleter {
     @Override
     public Collection<Command.Choice> getCompleter(CommandAutoCompleteInteractionEvent event) {
         List<String> jvmNames = new ArrayList<>();
-        for(IJVMExecutor jvm : AddonMain.getInstance().getCoreAPI().getContainer().getJVMExecutors()){
-            if(jvm.getType().equals(IJVMExecutor.Mods.DYNAMIC) || (jvm.getType().equals(IJVMExecutor.Mods.STATIC) && jvm.getServices().isEmpty())){
+        for(IExecutor jvm : AddonMain.getInstance().getCoreAPI().getContainer().getJVMExecutors()){
+            if(jvm.getType().equals(IExecutor.Mods.DYNAMIC) || (jvm.getType().equals(IExecutor.Mods.STATIC) && jvm.getServices().isEmpty())){
                 jvmNames.add(jvm.getFullName());
             }
         }

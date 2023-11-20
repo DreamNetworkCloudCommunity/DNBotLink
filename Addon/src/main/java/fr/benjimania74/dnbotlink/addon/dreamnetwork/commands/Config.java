@@ -1,7 +1,7 @@
 package fr.benjimania74.dnbotlink.addon.dreamnetwork.commands;
 
 import be.alexandre01.dreamnetwork.api.commands.Command;
-import be.alexandre01.dreamnetwork.core.console.colors.Colors;
+import be.alexandre01.dreamnetwork.api.console.colors.Colors;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.commands.sub.configure.*;
 
 public class Config extends Command {

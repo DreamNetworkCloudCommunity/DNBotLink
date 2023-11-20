@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,7 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ConfigManager {
-    private final Path folder = Paths.get((System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("Windows") ? "" : "/") + "addons/DNBotLink");
+    private final boolean isWindows = System.getProperty("os.name").split(" ")[0].equalsIgnoreCase("Windows");
+    private final Path folder = Paths.get(System.getProperty("user.dir") + "/addons/DNBotLink/");
 
     @Getter private BotConfig botConfig;
     @Getter private LinkConfig linkConfig;
@@ -27,15 +29,15 @@ public class ConfigManager {
 
     public ConfigManager(){
         try {
-            File f = folder.toFile();
-            if (!f.exists()) {
-                f.mkdir();
+            System.out.println(folder);
+            if (!Files.exists(folder)) {
+                Files.createDirectory(folder);
             }
 
             JSONParser parser = new JSONParser();
             JSONObject object;
 
-            f = new File(folder + "/bot-config.json");
+            File f = new File(folder + "/bot-config.json");
             if (!f.exists()) {
                 f.createNewFile();
                 botConfig = new BotConfig();
@@ -52,6 +54,7 @@ public class ConfigManager {
 
                     botConfig = new BotConfig(token, activity, permRole, status, prefix);
                 }catch (ParseException e){
+                    e.printStackTrace();
                     botConfig = new BotConfig();
                     saveBotConfig();
                 }
@@ -71,6 +74,7 @@ public class ConfigManager {
 
                     linkConfig = new LinkConfig(consoleLink, chatLink);
                 }catch (ParseException e){
+                    e.printStackTrace();
                     linkConfig = new LinkConfig();
                     saveLinkConfig();
                 }

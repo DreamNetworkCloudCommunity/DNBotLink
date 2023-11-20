@@ -4,10 +4,10 @@ import be.alexandre01.dreamnetwork.api.service.IService;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 
 public class StopService {
-    public static States stop(String service){
-        IService s = AddonMain.getInstance().getCoreAPI().getContainer().tryToGetService(service);
-        if(s == null){return States.NOT_STARTED;}
-        s.stop();
+    public static States stop(String serviceName){
+        IService service = AddonMain.getInstance().getCoreAPI().getContainer().tryToGetService(serviceName).orElse(null);
+        if(service == null){return States.NOT_STARTED;}
+        service.stop();
         return States.STOPPED;
     }
 

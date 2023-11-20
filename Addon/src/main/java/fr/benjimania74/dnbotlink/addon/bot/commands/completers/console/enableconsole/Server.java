@@ -1,6 +1,6 @@
 package fr.benjimania74.dnbotlink.addon.bot.commands.completers.console.enableconsole;
 
-import be.alexandre01.dreamnetwork.api.service.IJVMExecutor;
+import be.alexandre01.dreamnetwork.api.service.IExecutor;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
 import net.dv8tion.jda.api.events.interaction.command.CommandAutoCompleteInteractionEvent;
@@ -20,8 +20,8 @@ public class Server extends ArgumentCompleter {
     @Override
     public Collection<Command.Choice> getCompleter(CommandAutoCompleteInteractionEvent event) {
         List<String> serversName = new ArrayList<>();
-        for(IJVMExecutor jvmExecutor : AddonMain.getInstance().getCoreAPI().getContainer().getJVMExecutors()){
-            if(!jvmExecutor.isProxy()){serversName.add(jvmExecutor.getFullName());}
+        for(IExecutor executor : AddonMain.getInstance().getCoreAPI().getContainer().getJVMExecutors()){
+            if(!executor.isProxy()){serversName.add(executor.getFullName());}
         }
         return serversName.stream()
                 .filter(word -> word.startsWith(event.getFocusedOption().getValue()))
