@@ -11,13 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenReader {
-    @Getter private List<ThreadChannel> channels = new ArrayList<>();
-    private List<String> waitingMessage = new ArrayList<>();
+    @Getter private final List<ThreadChannel> channels = new ArrayList<>();
+    private final List<String> waitingMessage = new ArrayList<>();
     private int timeLeft = 0;
     private boolean stop = false;
 
     public ScreenReader(IService service){
-        if(!BotMain.getInstance().isStarted() || service.getJvmExecutor().isProxy()){return;}
+        if(!BotMain.getInstance().isStarted() || service.getExecutor().isProxy()){return;}
         timer();
 
         IScreenStream screenStream = service.getScreen().getScreenStream();
@@ -30,6 +30,14 @@ public class ScreenReader {
         });
     }
 
+    public void addChannel(ThreadChannel channel){
+        this.channels.add(channel);
+    }
+
+    public void removeChannel(ThreadChannel channel){
+        this.channels.remove(channel);
+    }
+
     private void addLine(String line){
         if(waitingMessage.size() == 20){send();}
         waitingMessage.add(line);
@@ -40,7 +48,7 @@ public class ScreenReader {
         if(waitingMessage.isEmpty() || !BotMain.getInstance().isStarted()){return;}
         StringBuilder sb = new StringBuilder();
         for(String l : waitingMessage){sb.append(l).append("\n");}
-        waitingMessage = new ArrayList<>();
+        waitingMessage.clear();
 
         for(ThreadChannel channel : channels){
             MessageCreateBuilder mcb = new MessageCreateBuilder();

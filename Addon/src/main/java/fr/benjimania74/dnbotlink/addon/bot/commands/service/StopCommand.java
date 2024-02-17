@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import java.awt.*;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class StopCommand extends Command {
 
@@ -18,7 +19,7 @@ public class StopCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        String service = event.getOption("service").getAsString();
+        String service = Objects.requireNonNull(event.getOption("service")).getAsString();
         StopService.States states = StopService.stop(service);
 
         event.deferReply().queue();

@@ -20,7 +20,7 @@ public class Server extends ArgumentCompleter {
     @Override
     public Collection<Command.Choice> getCompleter(CommandAutoCompleteInteractionEvent event) {
         List<String> serversName = new ArrayList<>();
-        for(IExecutor executor : AddonMain.getInstance().getCoreAPI().getContainer().getJVMExecutors()){
+        for(IExecutor executor : AddonMain.getInstance().getCoreAPI().getContainer().getExecutors()){
             if(!executor.isProxy()){serversName.add(executor.getFullName());}
         }
         return serversName.stream()

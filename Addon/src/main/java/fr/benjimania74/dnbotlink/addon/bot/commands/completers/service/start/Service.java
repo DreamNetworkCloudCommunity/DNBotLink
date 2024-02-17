@@ -20,7 +20,7 @@ public class Service extends ArgumentCompleter {
     @Override
     public Collection<Command.Choice> getCompleter(CommandAutoCompleteInteractionEvent event) {
         List<String> jvmNames = new ArrayList<>();
-        for(IExecutor jvm : AddonMain.getInstance().getCoreAPI().getContainer().getJVMExecutors()){
+        for(IExecutor jvm : AddonMain.getInstance().getCoreAPI().getContainer().getExecutors()){
             if(jvm.getType().equals(IExecutor.Mods.DYNAMIC) || (jvm.getType().equals(IExecutor.Mods.STATIC) && jvm.getServices().isEmpty())){
                 jvmNames.add(jvm.getFullName());
             }

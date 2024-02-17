@@ -17,7 +17,7 @@ public class Server extends ArgumentCompleter {
     @Override
     public Collection<Command.Choice> getCompleter(CommandAutoCompleteInteractionEvent event) {
         return AddonMain.getInstance().getServiceScreenReaders().keySet().stream()
-                .filter(service -> service.getFullName().startsWith(event.getFocusedOption().getValue()))
+                .filter(service -> !service.getExecutor().isProxy() && service.getFullName().startsWith(event.getFocusedOption().getValue()))
                 .map(service -> new Command.Choice(service.getFullName(), service.getFullName()))
                 .collect(Collectors.toList());
     }

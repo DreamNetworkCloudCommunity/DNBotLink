@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.requests.restaction.ThreadChannelAction;
 
 import java.awt.*;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class ConsoleLinkCommand extends Command {
     public ConsoleLinkCommand(String name, String description, boolean permCommand, LinkedHashMap<String, ArgumentCompleter> argumentsCompleter) {
@@ -18,7 +19,7 @@ public class ConsoleLinkCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        String runningServer = event.getOption("server").getAsString();
+        String runningServer = Objects.requireNonNull(event.getOption("server")).getAsString();
         AddonMain main = AddonMain.getInstance();
         IService service = main.getServiceScreenReaders().keySet().stream().filter(s -> runningServer.equals(s.getFullName())).findFirst().orElse(null);
 

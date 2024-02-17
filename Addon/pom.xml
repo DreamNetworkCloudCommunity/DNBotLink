@@ -30,7 +30,6 @@
             <groupId>be.alexandre01.dreamnetwork</groupId>
             <artifactId>Core-API</artifactId>
             <version>1.11.0-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>net.dv8tion</groupId>

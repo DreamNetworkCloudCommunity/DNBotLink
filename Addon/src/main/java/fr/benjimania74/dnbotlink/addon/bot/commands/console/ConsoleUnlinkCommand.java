@@ -37,7 +37,7 @@ public class ConsoleUnlinkCommand extends Command {
         main.getServiceScreenReaders().forEach((service, screenReader) -> {
             for(ThreadChannel c : screenReader.getChannels()){
                 if(c.getId().equals(tc.getId())){
-                    screenReader.getChannels().remove(c);
+                    screenReader.removeChannel(c);
                     event.replyEmbeds(
                             new EmbedBuilder()
                                     .setColor(Color.GREEN)

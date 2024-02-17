@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.awt.*;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class EnableConsoleCommand extends Command {
     public EnableConsoleCommand(String name, String description, boolean permCommand, LinkedHashMap<String, ArgumentCompleter> argumentsCompleter) {
@@ -18,22 +19,54 @@ public class EnableConsoleCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        String server = event.getOption("server").getAsString();
+        String server = Objects.requireNonNull(event.getOption("server")).getAsString();
         AddonMain main = AddonMain.getInstance();
-        IExecutor executor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(server).orElse(null);
-        if(executor == null || executor.isProxy()){
-            event.replyEmbeds(
-                    new EmbedBuilder()
-                            .setColor(Color.RED)
-                            .setTitle("Invalid Server")
-                            .setDescription("**" + server + "** is not a server")
-                            .build()
-            ).queue();
-            return;
+
+        IExecutor executor;
+
+        if(server.contains("/")){
+            String serverName = server.substring(server.lastIndexOf("/") + 1);
+            String bundleName = server.substring(0, server.lastIndexOf("/"));
+            executor = main.getCoreAPI().getContainer().getExecutor(serverName, bundleName);
+            if(executor == null || executor.isProxy()){
+                event.replyEmbeds(
+                        new EmbedBuilder()
+                                .setColor(Color.RED)
+                                .setTitle("Invalid Server")
+                                .setDescription("**" + server + "** is not a server")
+                                .build()
+                ).queue();
+                return;
+            }
+        }else{
+            IExecutor[] executors = main.getCoreAPI().getContainer().getExecutorsFromName(server);
+            if(executors == null || executors.length == 0){
+                event.replyEmbeds(
+                        new EmbedBuilder()
+                                .setColor(Color.RED)
+                                .setTitle("Invalid Server")
+                                .setDescription("**" + server + "** is not a server")
+                                .build()
+                ).queue();
+                return;
+            }
+            if(executors.length > 1){
+                event.replyEmbeds(
+                        new EmbedBuilder()
+                                .setColor(Color.RED)
+                                .setTitle("Server must be more specific")
+                                .setDescription("**" + server + "** has multiple server's possibilities")
+                                .build()
+                ).queue();
+                return;
+            }
+            executor = executors[0];
         }
+
+
         List<String> linkedServer = main.getConfigManager().getLinkConfig().getConsoleLinks();
-        if(!linkedServer.contains(server)){
-            linkedServer.add(server);
+        if(!linkedServer.contains(executor.getFullName())){
+            linkedServer.add(executor.getFullName());
             main.getConfigManager().saveLinkConfig();
         }
         event.replyEmbeds(

@@ -1,8 +1,7 @@
 package fr.benjimania74.dnbotlink.addon.bot.commands.service;
 
-import be.alexandre01.dreamnetwork.api.service.ExecutorCallbacks;
 import be.alexandre01.dreamnetwork.api.service.IExecutor;
-import be.alexandre01.dreamnetwork.api.service.IService;
+import fr.benjimania74.dnbotlink.addon.bot.utils.ScreenReader;
 import fr.benjimania74.dnbotlink.addon.dreamnetwork.AddonMain;
 import fr.benjimania74.dnbotlink.addon.bot.commands.Command;
 import fr.benjimania74.dnbotlink.addon.bot.commands.completers.ArgumentCompleter;
@@ -12,6 +11,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 import java.awt.*;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class StartCommand extends Command {
     private MessageEmbed embed;
@@ -22,43 +22,38 @@ public class StartCommand extends Command {
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
-        String service = event.getOption("service").getAsString();
+        String service = Objects.requireNonNull(event.getOption("service")).getAsString();
 
         AddonMain main = AddonMain.getInstance();
-        IExecutor executor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(service).orElse(null);
 
-        States states;
-        if(executor == null){states = States.NOT_FOUND;}
-        else{
-            if(!executor.isConfig()){
-                states = States.NOT_CONFIG;
-            } else if(!executor.getServices().isEmpty() && executor.getType().equals(IExecutor.Mods.STATIC)) {
-                states = States.ALREADY_STARTED;
+        State state = State.NOT_FOUND;
+        IExecutor executor;
+
+        if(service.contains("/")){
+            String serviceName = service.substring(service.lastIndexOf("/") + 1);
+            String bundleName = service.substring(0, service.lastIndexOf("/"));
+            executor = main.getCoreAPI().getContainer().getExecutor(serviceName, bundleName);
+        }else{
+            IExecutor[] executors = main.getCoreAPI().getContainer().getExecutorsFromName(service);
+            if(executors.length == 0){
+                executor = null;
+            } else if(executors.length > 1){
+                executor = null;
+                state = State.MULTIPLE_POSSIBILITIES;}
+            else{executor = executors[0];}
+        }
+
+        if(executor != null) {
+            if (!executor.isConfig()) {
+                state = State.NOT_CONFIG;
+            } else if (!executor.getServices().isEmpty() && executor.getType().equals(IExecutor.Mods.STATIC)) {
+                state = State.ALREADY_STARTED;
             } else {
-                states = States.STARTED;
+                state = State.STARTED;
             }
         }
-        /*Optional<IJVMExecutor> optionalIJVMExecutor = main.getCoreAPI().getContainer().tryToGetJVMExecutor(service);
 
-
-        AtomicReference<IJVMExecutor> arJVM = new AtomicReference<>(null);
-        optionalIJVMExecutor.ifPresent(jvm -> {
-            System.out.println("présent !");
-        });*/
-
-        /*if(arJVM.get() == null){
-            states = States.NOT_FOUND;
-        }else{
-            System.out.println("a");
-            IJVMExecutor jvm = arJVM.get();
-            System.out.println("b");
-            if(!jvm.isConfig()){states = States.NOT_CONFIG;}
-            else if(!jvm.getServices().isEmpty() && jvm.getType().equals(IJVMExecutor.Mods.STATIC)){states = States.ALREADY_STARTED;}
-            else {states = States.STARTED;}
-            System.out.println("d");
-        }*/
-
-        switch (states){
+        switch (state){
             case STARTED:
                 embed = new EmbedBuilder()
                         .setColor(Color.GREEN)
@@ -87,29 +82,39 @@ public class StartCommand extends Command {
                         .setDescription("The Service **" + service + "** has not been configured")
                         .build();
                 break;
+            case MULTIPLE_POSSIBILITIES:
+                embed = new EmbedBuilder()
+                        .setColor(Color.RED)
+                        .setTitle("Service must be more specific")
+                        .setDescription("**" + service + "** has multiple service's possibilities")
+                        .build();
         }
 
-        States finalStates = states;
+        State finalState = state;
         event.replyEmbeds(embed).queue(interactionHook -> {
-            if(finalStates != States.STARTED){return;}
+            if(finalState != State.STARTED){return;}
             interactionHook.editOriginal("").queue(message -> {
-                executor.startServers(1).whenStart(new ExecutorCallbacks.ICallbackStart() {
-                    @Override
-                    public void whenStart(IService s) {
-                        if(executor.isProxy() || !main.getConfigManager().getLinkConfig().getConsoleLinks().contains(service)){return;}
-                        message.createThreadChannel(s.getFullName() + "'s Console").queue(threadChannel -> {
-                            main.getServiceScreenReaders().get(s).getChannels().add(threadChannel);
-                        });
-                    }
+                executor.startService().whenStart(s -> {
+                    if(executor.isProxy() || !main.getConfigManager().getLinkConfig().getConsoleLinks().contains(executor.getFullName())){return;}
+                    message.createThreadChannel(s.getFullName() + "'s Console").queue(threadChannel -> {
+                        if(!main.getServiceScreenReaders().containsKey(s)){
+                            ScreenReader sr = new ScreenReader(s);
+                            sr.addChannel(threadChannel);
+                            main.getServiceScreenReaders().put(s, sr);
+                        }else {
+                            main.getServiceScreenReaders().get(s).addChannel(threadChannel);
+                        }
+                    });
                 });
             });
         });
     }
 
-    public enum States {
+    public enum State {
         NOT_CONFIG,
         NOT_FOUND,
         ALREADY_STARTED,
-        STARTED
+        STARTED,
+        MULTIPLE_POSSIBILITIES
     }
 }
